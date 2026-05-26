@@ -1,149 +1,137 @@
-import { useMemo } from "react";
-import { Crown, Flame, MapPin, ScanLine, ShieldCheck, Timer, Trophy } from "lucide-react";
+import { ArrowRight, Clock3, MapPin, ShieldCheck, Sparkles, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import MenuItemCard from "../components/MenuItemCard.jsx";
 import SectionHeader from "../components/SectionHeader.jsx";
+import { useLanguage } from "../context/LanguageContext.js";
 import { useMenu } from "../context/MenuContext.js";
 
 const copy = {
   ge: {
-    eyebrow: "QR მენიუ / მარაკანა",
-    title: "სტადიონის ენერგია. პრემიუმ ლაუნჯის გემო.",
+    eyebrow: "მარაკანა / ციფრული მენიუ",
+    title: "ქართული ბისტრო გამოცდილება პრემიუმ ფორმატში.",
     description:
-      "მარაკანას სწრაფი QR მენიუ აერთიანებს პიცას, ბურგერებს, წასახემსებლებსა და სასმელებს მობილურ, მაღალტექნოლოგიურ გამოცდილებაში.",
-    live: "ცოცხალი მენიუ",
-    liveText: "მარაგი სინქრონდება ადმინისტრატორის პანელიდან",
-    hours: "12:00 - 23:00",
-    hoursText: "თბილისის დროით",
-    venue: "მარაკანა ლაუნჯი",
-    venueText: "სპორტი, მუსიკა, მეგობრები",
-    viral: "TikTok ჰიტები",
+      "დაათვალიერეთ მარაკანას ავთენტური მენიუ, რეალური ფოტოებით, ცოცხალი ხელმისაწვდომობით და მარტივი დაჯავშნის სისტემით.",
+    cta: "მაგიდის დაჯავშნა",
+    explore: "მენიუს ნახვა",
+    open: "დღეს ღიაა 12:00 - 23:00",
+    location: "თბილისი, მარაკანა",
+    quality: "ავთენტური ქართული კერძები",
     categories: "კატეგორიები",
   },
   en: {
-    eyebrow: "QR Menu / Maracana",
-    title: "Stadium energy. Premium lounge flavor.",
+    eyebrow: "Maracana / Digital Menu",
+    title: "A premium Georgian bistro experience.",
     description:
-      "Maracana's fast QR menu brings pizza, burgers, appetizers, and drinks into a mobile-first high-tech dining experience.",
-    live: "Live menu",
-    liveText: "Inventory syncs from the admin dashboard",
-    hours: "12:00 - 23:00",
-    hoursText: "Tbilisi local time",
-    venue: "Maracana Lounge",
-    venueText: "Sports, music, friends",
-    viral: "TikTok hits",
+      "Explore Maracana's authentic menu with real photography, live availability, and a seamless reservation system.",
+    cta: "Reserve a table",
+    explore: "Explore menu",
+    open: "Open today 12:00 - 23:00",
+    location: "Tbilisi, Maracana",
+    quality: "Authentic Georgian dishes",
     categories: "Categories",
   },
 };
 
 export default function MenuView() {
-  const { categories, language, menuItems } = useMenu();
-
-  const groupedMenu = useMemo(
-    () =>
-      categories.map((category) => ({
-        ...category,
-        items: menuItems.filter((item) => item.categoryId === category.id),
-      })),
-    [categories, menuItems],
-  );
-
-  const viralCount = menuItems.filter((item) => item.isViral).length;
+  const { language } = useLanguage();
+  const { groupedMenu, menuItems } = useMenu();
+  const t = copy[language];
 
   return (
-    <main className="relative overflow-hidden pb-28 md:pb-0">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.18),transparent_34rem),radial-gradient(circle_at_80%_10%,rgba(245,158,11,0.16),transparent_28rem)]" />
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <section className="relative overflow-hidden rounded-[2rem] border border-amber-500/30 bg-neutral-900/80 p-5 shadow-2xl shadow-black/50 backdrop-blur-md sm:p-8 lg:p-10">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-green-500 via-amber-500 to-green-500" />
-          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <SectionHeader
-              eyebrow={copy[language].eyebrow}
-              title={copy[language].title}
-              description={copy[language].description}
-            />
-            <div className="rounded-[1.75rem] border border-white/10 bg-neutral-950/55 p-5">
-              <div className="mb-5 flex items-center justify-between">
+    <main className="pb-28 md:pb-0">
+      <section className="border-b border-neutral-200/70 bg-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-16">
+          <div>
+            <SectionHeader eyebrow={t.eyebrow} title={t.title} description={t.description} />
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/book"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-md"
+              >
+                {t.cta}
+                <ArrowRight size={17} />
+              </Link>
+              <a
+                href="#menu"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-50 hover:text-amber-700 hover:shadow-md"
+              >
+                {t.explore}
+              </a>
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-amber-200 bg-neutral-50 p-4 shadow-sm">
+            <div className="rounded-[1.5rem] border border-neutral-200/70 bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.32em] text-amber-500">Maracana</p>
-                  <p className="mt-1 font-display text-3xl font-black text-white">მარაკანა</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-600">Modern Bistro</p>
+                  <h2 className="mt-2 text-4xl font-black tracking-tight text-slate-950">მარაკანა</h2>
                 </div>
-                <Trophy className="text-green-500" size={34} />
+                <div className="grid h-14 w-14 place-items-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700">
+                  <Sparkles size={24} />
+                </div>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Metric icon={ScanLine} title={copy[language].live} text={copy[language].liveText} />
-                <Metric icon={Timer} title={copy[language].hours} text={copy[language].hoursText} />
-                <Metric icon={MapPin} title={copy[language].venue} text={copy[language].venueText} />
-                <Metric icon={Flame} title={copy[language].viral} text={String(viralCount) + " featured items"} />
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <Metric icon={Clock3} label={t.open} />
+                <Metric icon={MapPin} label={t.location} />
+                <Metric icon={ShieldCheck} label={`${menuItems.length} ${t.quality}`} />
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-8 rounded-[1.5rem] border border-amber-500/20 bg-neutral-900/70 p-3 backdrop-blur-md">
-          <p className="px-3 pb-3 text-xs font-black uppercase tracking-[0.32em] text-white/45">
-            {copy[language].categories}
-          </p>
+      <section id="menu" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mb-8 rounded-2xl border border-neutral-200/60 bg-white p-3 shadow-sm">
+          <p className="px-3 pb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-600">{t.categories}</p>
           <div className="flex gap-2 overflow-x-auto pb-1">
             {groupedMenu.map((category) => (
               <a
-                key={category.id}
-                href={"#" + category.id}
-                className="whitespace-nowrap rounded-full border border-white/10 bg-neutral-950/60 px-4 py-2 text-sm font-black text-white/70 transition hover:border-green-500/50 hover:text-green-400"
+                key={category.labelGe}
+                href={`#${category.id}`}
+                className="whitespace-nowrap rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700 transition-all duration-300 hover:bg-white hover:shadow-sm"
               >
-                {category.label[language]}
+                {language === "ge" ? category.labelGe : category.labelEn}
               </a>
             ))}
           </div>
-        </section>
+        </div>
 
-        <div className="mt-10 space-y-12">
+        <div className="space-y-12">
           {groupedMenu.map((category) => (
-            <section key={category.id} id={category.id} className="scroll-mt-28">
-              <div className="mb-5 flex items-center justify-between gap-4">
+            <section key={category.labelGe} id={category.id} className="scroll-mt-28">
+              <div className="mb-5 flex items-end justify-between gap-4">
                 <div>
-                  <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.32em] text-green-500">
-                    <Crown size={14} />
-                    {category.label[language]}
+                  <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-amber-600">
+                    <Star size={14} />
+                    {language === "ge" ? category.labelGe : category.labelEn}
                   </p>
-                  <h2 className="mt-2 font-display text-3xl font-black text-white sm:text-4xl">
+                  <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
                     {language === "ge" ? "მარაკანას არჩევანი" : "Maracana selection"}
                   </h2>
                 </div>
-                <span className="rounded-full border border-amber-500/30 px-3 py-1 text-xs font-bold text-amber-200">
+                <span className="rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-semibold text-slate-500 shadow-sm">
                   {category.items.length} {language === "ge" ? "პოზიცია" : "items"}
                 </span>
               </div>
               <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {category.items.map((item) => (
-                  <MenuItemCard key={item.id} item={item} category={category} />
+                  <MenuItemCard key={item.id} item={item} />
                 ))}
               </div>
             </section>
           ))}
         </div>
-
-        <section className="mt-12 rounded-[2rem] border border-green-500/25 bg-green-500/10 p-6 text-center backdrop-blur-md">
-          <ShieldCheck className="mx-auto mb-3 text-green-400" size={32} />
-          <p className="font-display text-2xl font-black text-white">
-            {language === "ge" ? "მენიუ სინქრონდება რეალურ დროში" : "Menu syncs in real time"}
-          </p>
-          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-white/58">
-            {language === "ge"
-              ? "როცა პერსონალი ადმინისტრატორის პანელში პროდუქტს ამოწურულად მონიშნავს, QR მენიუში ის მყისიერად გამჭვირვალე და დაბლოკილი ხდება."
-              : "When staff mark an item out of stock in the admin dashboard, it instantly appears faded and disabled in this QR menu."}
-          </p>
-        </section>
-      </div>
+      </section>
     </main>
   );
 }
 
-function Metric({ icon: Icon, title, text }) {
+function Metric({ icon: Icon, label }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-neutral-900/80 p-4 transition hover:border-green-500/40">
-      <Icon className="mb-3 text-green-500" size={20} />
-      <p className="font-black text-white">{title}</p>
-      <p className="mt-1 text-xs leading-5 text-white/45">{text}</p>
+    <div className="rounded-2xl border border-neutral-200/60 bg-neutral-50 p-4">
+      <Icon className="mb-3 text-amber-600" size={19} />
+      <p className="text-sm font-semibold leading-5 text-slate-800">{label}</p>
     </div>
   );
 }

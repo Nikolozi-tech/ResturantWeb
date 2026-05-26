@@ -1,12 +1,12 @@
-# Maracana Restaurant Lounge App
+# Maracana Georgian Bistro App
 
-Premium, mobile-responsive React/Vite/Tailwind prototype for the Georgian restaurant/lounge brand **მარაკანა**.
+Production-grade React/Vite/Tailwind prototype for **მარაკანა** with segregated public and staff routes.
 
 ## Routes
 
-- `/menu` - customer QR menu with global EN/GE language switching, official Maracana menu data, TikTok viral badges, and live out-of-stock overlays.
-- `/book` - localized table booking flow with Georgian phone validation, 12:00-23:00 Tbilisi operating-hour slots, and automated confirmation codes.
-- `/admin` - staff dashboard for reservation status management and live menu inventory toggles.
+- `/` - public customer menu with no admin links or references.
+- `/book` - reservation checkout flow with fixed +995 phone prefix and 12:00-23:00 slots.
+- `/admin` - standalone staff operations dashboard available only by direct URL.
 
 ## Development
 

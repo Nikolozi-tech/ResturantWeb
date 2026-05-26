@@ -6,14 +6,14 @@ export default function StockToggle({ enabled, onChange, label }) {
       aria-pressed={enabled}
       aria-label={label}
       className={[
-        "relative inline-flex h-8 w-16 flex-shrink-0 items-center rounded-full border transition duration-300",
-        enabled ? "border-green-500/50 bg-green-500/25" : "border-red-400/50 bg-red-500/20",
+        "relative inline-flex h-7 w-12 flex-shrink-0 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-100",
+        enabled ? "bg-amber-600" : "bg-neutral-300",
       ].join(" ")}
     >
       <span
         className={[
-          "h-6 w-6 rounded-full bg-white shadow-lg transition duration-300",
-          enabled ? "translate-x-9 shadow-green-500/40" : "translate-x-1 shadow-red-500/30",
+          "inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-all duration-300",
+          enabled ? "translate-x-6" : "translate-x-1",
         ].join(" ")}
       />
     </button>

@@ -1,165 +1,5 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
-
-export const categories = [
-  { id: "pizza", label: { en: "Pizza", ge: "პიცა" }, accent: "from-amber-500 to-orange-600" },
-  {
-    id: "burgers",
-    label: { en: "Burgers & Sandwiches", ge: "ბურგერები & სენდვიჩები" },
-    accent: "from-green-500 to-emerald-700",
-  },
-  {
-    id: "appetizers",
-    label: { en: "Appetizers & Salads", ge: "წასახემსებელი & სალათები" },
-    accent: "from-lime-500 to-amber-500",
-  },
-  { id: "drinks", label: { en: "Drinks", ge: "სასმელები" }, accent: "from-cyan-400 to-green-500" },
-];
-
-export const maracanaMenu = [
-  {
-    id: "pizza-margherita",
-    categoryId: "pizza",
-    name: { ge: "პიცა მარგარიტა", en: "Pizza Margherita" },
-    description: {
-      ge: "კლასიკური პიცა ტომატის სოუსითა და მოცარელათი",
-      en: "Classic pizza with tomato sauce and mozzarella.",
-    },
-    price: 18,
-    imageTone: "from-red-950 via-amber-800 to-amber-500",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "pizza-pepperoni",
-    categoryId: "pizza",
-    name: { ge: "პიცა პეპერონი", en: "Pizza Pepperoni" },
-    description: {
-      ge: "ცხარე პეპერონი, მოცარელა, საფირმო სოუსი",
-      en: "Spicy pepperoni, mozzarella, and signature sauce.",
-    },
-    price: 22,
-    imageTone: "from-red-950 via-red-700 to-amber-500",
-    inStock: true,
-    isViral: true,
-  },
-  {
-    id: "four-cheese-pizza",
-    categoryId: "pizza",
-    name: { ge: "პიცა ოთხი ყველი", en: "Four Cheese Pizza" },
-    description: {
-      ge: "მოცარელა, პარმეზანი, გორგონძოლა, ჩედარი",
-      en: "Mozzarella, parmesan, gorgonzola, and cheddar.",
-    },
-    price: 24,
-    imageTone: "from-yellow-950 via-amber-700 to-yellow-300",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "classic-burger",
-    categoryId: "burgers",
-    name: { ge: "კლასიკური ბურგერი", en: "Classic Burger" },
-    description: {
-      ge: "საქონლის ხორცის კოტლეტი, ჩედარი, ბოსტნეული, საფირმო სოუსი",
-      en: "Beef patty, cheddar, vegetables, and signature sauce.",
-    },
-    price: 16,
-    imageTone: "from-neutral-950 via-green-900 to-amber-500",
-    inStock: true,
-    isViral: true,
-  },
-  {
-    id: "crispy-chicken-burger",
-    categoryId: "burgers",
-    name: { ge: "ჩიქენ ბურგერი", en: "Crispy Chicken Burger" },
-    description: {
-      ge: "ხრაშუნა ქათმის ფილე, სალათის ფოთოლი, მაიონეზის სოუსი",
-      en: "Crispy chicken fillet, lettuce, and mayo sauce.",
-    },
-    price: 15,
-    imageTone: "from-orange-950 via-amber-800 to-green-500",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "club-sandwich-fries",
-    categoryId: "burgers",
-    name: { ge: "კლუბ სენდვიჩი ფრით", en: "Club Sandwich with Fries" },
-    description: {
-      ge: "კლასიკური კლუბ სენდვიჩი ოქროსფერ ფრისთან ერთად",
-      en: "Classic club sandwich served with golden fries.",
-    },
-    price: 14,
-    imageTone: "from-amber-950 via-neutral-800 to-yellow-500",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "caesar-chicken",
-    categoryId: "appetizers",
-    name: { ge: "კეისარი ქათმით", en: "Caesar Salad with Chicken" },
-    description: {
-      ge: "კლასიკური კეისარი საფირმო დრესინგითა და კრუტონებით",
-      en: "Classic Caesar with signature dressing and croutons.",
-    },
-    price: 16,
-    imageTone: "from-green-950 via-lime-800 to-amber-400",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "french-fries",
-    categoryId: "appetizers",
-    name: { ge: "კარტოფილი ფრი", en: "French Fries" },
-    description: {
-      ge: "ოქროსფერი კარტოფილი ფრი სოუსით",
-      en: "Golden french fries with sauce.",
-    },
-    price: 7,
-    imageTone: "from-yellow-950 via-amber-700 to-yellow-300",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "mexican-potatoes",
-    categoryId: "appetizers",
-    name: { ge: "მექსიკური კარტოფილი", en: "Mexican Potatoes" },
-    description: {
-      ge: "ცხარე მექსიკური კარტოფილი საფირმო სოუსით",
-      en: "Spicy Mexican potatoes with signature sauce.",
-    },
-    price: 8,
-    imageTone: "from-red-950 via-orange-700 to-green-500",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "coca-cola",
-    categoryId: "drinks",
-    name: { ge: "კოკა-კოლა 0.33ლ", en: "Coca-Cola 0.33L" },
-    description: {
-      ge: "გაცივებული კოკა-კოლა ქილით",
-      en: "Chilled Coca-Cola can.",
-    },
-    price: 3,
-    imageTone: "from-red-950 via-neutral-900 to-red-600",
-    inStock: true,
-    isViral: false,
-  },
-  {
-    id: "iced-coffee",
-    categoryId: "drinks",
-    name: { ge: "ცივი ყავა", en: "Iced Coffee" },
-    description: {
-      ge: "გამაგრილებელი ცივი ყავა რძით",
-      en: "Refreshing iced coffee with milk.",
-    },
-    price: 7,
-    imageTone: "from-stone-950 via-amber-900 to-neutral-500",
-    inStock: true,
-    isViral: false,
-  },
-];
+import { createContext, createElement, useContext, useMemo, useReducer } from "react";
+import { menuItems as officialMenuItems } from "../data/menu.js";
 
 export const timeSlots = [
   "12:00",
@@ -187,109 +27,147 @@ export const timeSlots = [
   "23:00",
 ];
 
-const initialBookings = [
+const initialReservations = [
   {
-    id: "MRC-9402",
-    fullName: "Nino Beridze",
+    id: "MRC-82491",
+    customerName: "Nino Beridze",
     phone: "+995555141288",
-    guests: 4,
+    partySize: 4,
     date: "2026-05-26",
-    time: "20:30",
+    time: "20:00",
     status: "Confirmed",
-    createdAt: "2026-05-26T01:00:00.000Z",
+    createdAt: "2026-05-26T02:00:00.000Z",
   },
   {
-    id: "MRC-9403",
-    fullName: "Giorgi Maisuradze",
+    id: "MRC-82492",
+    customerName: "Giorgi Maisuradze",
     phone: "+995577901020",
-    guests: 2,
+    partySize: 2,
     date: "2026-05-26",
-    time: "22:00",
+    time: "21:30",
     status: "Seated",
-    createdAt: "2026-05-26T01:05:00.000Z",
+    createdAt: "2026-05-26T02:04:00.000Z",
   },
 ];
 
+const initialState = {
+  menuItems: officialMenuItems,
+  reservations: initialReservations,
+};
+
 const MenuContext = createContext(null);
 
-const makeConfirmationCode = () =>
-  "MRC-" + Math.random().toString(36).slice(2, 6).toUpperCase() + "-" + Date.now().toString().slice(-4);
-
-const sortBookings = (items) =>
-  [...items].sort((a, b) => {
-    const dateCompare = (a.date + "T" + a.time).localeCompare(b.date + "T" + b.time);
-    return dateCompare || a.fullName.localeCompare(b.fullName);
+const sortReservations = (reservations) =>
+  [...reservations].sort((a, b) => {
+    const dateTime = `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`);
+    return dateTime || a.customerName.localeCompare(b.customerName);
   });
 
+const createTrackingId = () => `MRC-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+
+function menuReducer(state, action) {
+  switch (action.type) {
+    case "ADD_RESERVATION":
+      return { ...state, reservations: sortReservations([...state.reservations, action.payload]) };
+    case "UPDATE_RESERVATION_STATUS":
+      return {
+        ...state,
+        reservations: sortReservations(
+          state.reservations.map((reservation) =>
+            reservation.id === action.payload.id ? { ...reservation, status: action.payload.status } : reservation,
+          ),
+        ),
+      };
+    case "TOGGLE_MENU_AVAILABILITY":
+      return {
+        ...state,
+        menuItems: state.menuItems.map((item) =>
+          item.id === action.payload ? { ...item, isAvailable: !item.isAvailable } : item,
+        ),
+      };
+    default:
+      return state;
+  }
+}
+
 export function MenuProvider({ children }) {
-  const [language, setLanguage] = useState("ge");
-  const [menuItems, setMenuItems] = useState(maracanaMenu);
-  const [bookings, setBookings] = useState(initialBookings);
+  const [state, dispatch] = useReducer(menuReducer, initialState);
+
+  const reservations = useMemo(() => sortReservations(state.reservations), [state.reservations]);
+
+  const categories = useMemo(() => {
+    const byCategory = new Map();
+    state.menuItems.forEach((item) => {
+      if (!byCategory.has(item.categoryGe)) {
+        byCategory.set(item.categoryGe, {
+          id: item.category,
+          labelGe: item.categoryGe,
+          labelEn: item.category,
+        });
+      }
+    });
+    return Array.from(byCategory.values());
+  }, [state.menuItems]);
+
+  const groupedMenu = useMemo(
+    () =>
+      categories.map((category) => ({
+        ...category,
+        items: state.menuItems.filter((item) => item.categoryGe === category.labelGe),
+      })),
+    [categories, state.menuItems],
+  );
 
   const bookedSlotsByDate = useMemo(
     () =>
-      bookings.reduce((slots, booking) => {
-        if (booking.status !== "Cancelled") {
-          slots[booking.date] = [...(slots[booking.date] || []), booking.time];
+      reservations.reduce((slots, reservation) => {
+        if (reservation.status !== "Cancelled") {
+          slots[reservation.date] = [...(slots[reservation.date] || []), reservation.time];
         }
         return slots;
       }, {}),
-    [bookings],
+    [reservations],
   );
 
-  const isSlotAvailable = (date, time) => {
-    if (!date || !time) {
-      return false;
-    }
-    return !(bookedSlotsByDate[date] || []).includes(time);
-  };
-
-  const createBooking = (bookingDetails) => {
-    const booking = {
-      id: makeConfirmationCode(),
-      fullName: bookingDetails.fullName.trim(),
-      phone: bookingDetails.phone,
-      guests: Number(bookingDetails.guests),
-      date: bookingDetails.date,
-      time: bookingDetails.time,
+  const createReservation = ({ customerName, localPhone, partySize, date, time }) => {
+    const reservation = {
+      id: createTrackingId(),
+      customerName: customerName.trim(),
+      phone: `+995${localPhone}`,
+      partySize: Number(partySize),
+      date,
+      time,
       status: "Pending",
       createdAt: new Date().toISOString(),
     };
 
-    setBookings((current) => sortBookings([...current, booking]));
-    return booking;
+    dispatch({ type: "ADD_RESERVATION", payload: reservation });
+    return reservation;
   };
 
-  const updateBookingStatus = (bookingId, status) => {
-    setBookings((current) =>
-      sortBookings(current.map((booking) => (booking.id === bookingId ? { ...booking, status } : booking))),
-    );
-  };
-
-  const toggleItemStock = (itemId) => {
-    setMenuItems((current) =>
-      current.map((item) => (item.id === itemId ? { ...item, inStock: !item.inStock } : item)),
-    );
+  const isSlotAvailable = (date, time) => {
+    if (!date || !time) return false;
+    return !(bookedSlotsByDate[date] || []).includes(time);
   };
 
   const value = useMemo(
     () => ({
       bookedSlotsByDate,
-      bookings: sortBookings(bookings),
       categories,
-      createBooking,
+      createReservation,
+      groupedMenu,
       isSlotAvailable,
-      language,
-      menuItems,
-      setLanguage,
+      menuItems: state.menuItems,
+      reservations,
       timeSlots,
-      toggleItemStock,
-      updateBookingStatus,
+      toggleMenuAvailability: (itemId) => dispatch({ type: "TOGGLE_MENU_AVAILABILITY", payload: itemId }),
+      updateReservationStatus: (id, status) =>
+        dispatch({ type: "UPDATE_RESERVATION_STATUS", payload: { id, status } }),
     }),
-    [bookedSlotsByDate, bookings, language, menuItems],
+    [bookedSlotsByDate, categories, groupedMenu, reservations, state.menuItems],
   );
 
-  return React.createElement(MenuContext.Provider, { value }, children);
+  return createElement(MenuContext.Provider, { value }, children);
 }
 
 export function useMenu() {
