@@ -4,7 +4,7 @@
   color-scheme: dark;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #070707;
+  background: #0a0a0a;
 }
 
 * {
@@ -20,8 +20,12 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(214, 161, 61, 0.14), transparent 34rem),
-    #070707;
+    linear-gradient(rgba(34, 197, 94, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.13), transparent 32rem),
+    radial-gradient(circle at 90% 10%, rgba(245, 158, 11, 0.12), transparent 28rem),
+    #0a0a0a;
+  background-size: 42px 42px, 42px 42px, auto, auto, auto;
 }
 
 button,
@@ -39,22 +43,22 @@ button:disabled {
 }
 
 select option {
-  background: #111111;
+  background: #171717;
   color: #ffffff;
 }
 
 .field-input {
   width: 100%;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.045);
+  border-radius: 1.15rem;
+  border: 1px solid rgba(245, 158, 11, 0.24);
+  background: rgba(10, 10, 10, 0.58);
   padding: 0.95rem 1rem;
   color: #ffffff;
   outline: none;
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
 }
 
 .field-input::placeholder {
@@ -62,9 +66,36 @@ select option {
 }
 
 .field-input:focus {
-  border-color: rgba(252, 211, 77, 0.65);
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 0 0 4px rgba(214, 161, 61, 0.12);
+  border-color: rgba(34, 197, 94, 0.72);
+  background: rgba(23, 23, 23, 0.86);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.13);
+}
+
+.viral-shimmer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.viral-shimmer::after {
+  position: absolute;
+  inset: -30% auto -30% -45%;
+  z-index: -1;
+  width: 45%;
+  content: "";
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+  animation: viral-shimmer 2.4s ease-in-out infinite;
+}
+
+@keyframes viral-shimmer {
+  0% {
+    left: -45%;
+  }
+  55%,
+  100% {
+    left: 115%;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -74,9 +105,9 @@ select option {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(214, 161, 61, 0.38);
+  background: rgba(34, 197, 94, 0.42);
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0b0b;
+  background: #0a0a0a;
 }
