@@ -4,16 +4,23 @@ import AdminView from "./views/AdminView.jsx";
 import BookView from "./views/BookView.jsx";
 import MenuView from "./views/MenuView.jsx";
 
+function PublicShell({ children }) {
+  return (
+    <div className="min-h-screen bg-neutral-50 text-neutral-900">
+      <Navigation />
+      {children}
+    </div>
+  );
+}
+
 export default function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-neutral-950 text-white">
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Navigate to="/menu" replace />} />
-        <Route path="/menu" element={<MenuView />} />
-        <Route path="/book" element={<BookView />} />
-        <Route path="/admin" element={<AdminView />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<PublicShell><MenuView /></PublicShell>} />
+      <Route path="/menu" element={<PublicShell><MenuView /></PublicShell>} />
+      <Route path="/book" element={<PublicShell><BookView /></PublicShell>} />
+      <Route path="/admin" element={<AdminView />} />
+      <Route path="*" element={<Navigate to="/menu" replace />} />
+    </Routes>
   );
 }

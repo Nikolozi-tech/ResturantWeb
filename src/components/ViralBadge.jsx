@@ -5,7 +5,7 @@ export default function ViralBadge() {
   const { language } = useMenu();
 
   return (
-    <span className="viral-shimmer inline-flex items-center gap-1 rounded-full border border-amber-300/50 bg-amber-500/15 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-amber-100 shadow-lg shadow-amber-500/20 backdrop-blur-md">
+    <span className="viral-badge inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-[11px] font-semibold text-rose-700 shadow-sm">
       <Sparkles size={12} />
       {language === "ge" ? "TikTok-ზე ვირუსული" : "Viral on TikTok"}
     </span>
