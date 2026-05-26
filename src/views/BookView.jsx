@@ -1,40 +1,43 @@
 import { useMemo, useState } from "react";
 import { CalendarDays, CheckCircle2, Clock3, Phone, TicketCheck, UserRound, UsersRound } from "lucide-react";
 import SectionHeader from "../components/SectionHeader.jsx";
+import { useLanguage } from "../context/LanguageContext.js";
 import { useMenu } from "../context/MenuContext.js";
 
 const copy = {
   ge: {
     eyebrow: "რეზერვაცია",
     title: "დაჯავშნეთ მაგიდა მარაკანაში.",
-    description: "აირჩიეთ სტუმრების რაოდენობა, თარიღი და დრო 12:00-დან 23:00-მდე. დადასტურების შემდეგ ჯავშანი მყისიერად გამოჩნდება ოპერაციების პანელში.",
+    description: "შეავსეთ checkout-სტილის ფორმა, აირჩიეთ 12:00-დან 23:00-მდე დრო და მიიღეთ უნიკალური დასტურის კოდი.",
     fullName: "სახელი და გვარი",
     guestCount: "სტუმრების რაოდენობა",
     date: "თარიღი",
-    time: "დროის სლოტი",
+    time: "დრო",
     phone: "ტელეფონი",
     submit: "რეზერვაციის დადასტურება",
-    confirmed: "რეზერვაცია დადასტურებულია",
-    confirmedText: "თქვენი უნიკალური კოდი მზად არის. აჩვენეთ ის პერსონალს მისვლისას.",
+    confirmed: "Reservation Confirmed",
+    confirmedText: "თქვენი რეზერვაცია მიღებულია და უკვე ჩანს ოპერაციების პანელში.",
     another: "ახალი რეზერვაცია",
     phoneHelp: "შეიყვანეთ ზუსტად 9 ციფრი",
     unavailable: "ეს დრო უკვე დაკავებულია",
+    summary: "ჯავშნის შეჯამება",
   },
   en: {
     eyebrow: "Reservations",
     title: "Reserve a table at Maracana.",
-    description: "Choose guest count, date, and a time slot between 12:00 and 23:00. Once confirmed, the reservation appears instantly in operations.",
+    description: "Complete the checkout-style form, choose a time from 12:00 to 23:00, and receive a unique confirmation code.",
     fullName: "Full Name",
     guestCount: "Guest Count",
     date: "Date",
-    time: "Time Slot",
+    time: "Time",
     phone: "Phone",
     submit: "Confirm reservation",
     confirmed: "Reservation Confirmed",
-    confirmedText: "Your unique tracking ID is ready. Show it to staff when you arrive.",
+    confirmedText: "Your reservation is confirmed and already visible in the operations dashboard.",
     another: "Create another reservation",
     phoneHelp: "Enter exactly 9 digits",
     unavailable: "This time is already booked",
+    summary: "Booking summary",
   },
 };
 
@@ -47,9 +50,11 @@ const initialForm = {
 };
 
 export default function BookView() {
-  const { bookedSlotsByDate, createReservation, isSlotAvailable, language, timeSlots } = useMenu();
+  const { language } = useLanguage();
+  const { bookedSlotsByDate, createReservation, isSlotAvailable, timeSlots } = useMenu();
   const [form, setForm] = useState(initialForm);
   const [confirmedReservation, setConfirmedReservation] = useState(null);
+  const t = copy[language];
 
   const bookedSlots = useMemo(() => bookedSlotsByDate[form.date] || [], [bookedSlotsByDate, form.date]);
   const phoneIsValid = /^\d{9}$/.test(form.localPhone);
@@ -76,17 +81,17 @@ export default function BookView() {
   if (confirmedReservation) {
     return (
       <main className="grid min-h-[calc(100vh-80px)] place-items-center px-4 py-10 pb-28 md:pb-10">
-        <section className="w-full max-w-2xl rounded-[2rem] border border-neutral-200/60 bg-white p-6 text-center shadow-sm sm:p-10">
-          <div className="mx-auto mb-6 grid h-16 w-16 place-items-center rounded-2xl bg-emerald-50 text-emerald-700">
+        <section className="w-full max-w-2xl rounded-[2rem] border border-amber-200 bg-white p-6 text-center shadow-sm sm:p-10">
+          <div className="mx-auto mb-6 grid h-16 w-16 place-items-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700">
             <TicketCheck size={32} />
           </div>
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-neutral-500">Maracana</p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight text-neutral-950">{copy[language].confirmed}</h1>
-          <p className="mx-auto mt-3 max-w-lg text-neutral-600">{copy[language].confirmedText}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">Maracana</p>
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-slate-950">{t.confirmed}</h1>
+          <p className="mx-auto mt-3 max-w-lg text-slate-600">{t.confirmedText}</p>
           <div className="mx-auto mt-8 max-w-md rounded-2xl border border-neutral-200/70 bg-neutral-50 p-5">
-            <p className="text-sm font-semibold text-neutral-500">Tracking ID</p>
-            <p className="mt-2 text-3xl font-black tracking-tight text-neutral-950">{confirmedReservation.id}</p>
-            <div className="mt-5 grid grid-cols-3 gap-3 text-sm font-semibold text-neutral-600">
+            <p className="text-sm font-semibold text-slate-500">Tracking ID</p>
+            <p className="mt-2 text-3xl font-black tracking-tight text-slate-950">{confirmedReservation.id}</p>
+            <div className="mt-5 grid grid-cols-3 gap-3 text-sm font-semibold text-slate-600">
               <span>{confirmedReservation.date}</span>
               <span>{confirmedReservation.time}</span>
               <span>{confirmedReservation.partySize} guests</span>
@@ -95,9 +100,9 @@ export default function BookView() {
           <button
             type="button"
             onClick={() => setConfirmedReservation(null)}
-            className="mt-8 rounded-full bg-neutral-950 px-6 py-3 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+            className="mt-8 rounded-full bg-amber-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-md"
           >
-            {copy[language].another}
+            {t.another}
           </button>
         </section>
       </main>
@@ -107,19 +112,19 @@ export default function BookView() {
   return (
     <main className="pb-28 md:pb-0">
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-14">
-        <aside className="rounded-[2rem] border border-neutral-200/60 bg-white p-6 shadow-sm sm:p-8">
-          <SectionHeader eyebrow={copy[language].eyebrow} title={copy[language].title} description={copy[language].description} />
+        <aside className="rounded-[2rem] border border-amber-200 bg-white p-6 shadow-sm sm:p-8">
+          <SectionHeader eyebrow={t.eyebrow} title={t.title} description={t.description} />
           <div className="grid gap-3">
             <Info icon={Clock3} title="12:00 - 23:00" text="Tbilisi local operating hours" />
-            <Info icon={Phone} title="+995" text={copy[language].phoneHelp} />
-            <Info icon={CheckCircle2} title="Live dashboard sync" text="Reservation is dispatched into global staff state" />
+            <Info icon={Phone} title="+995" text={t.phoneHelp} />
+            <Info icon={CheckCircle2} title="Live dashboard sync" text="Reservation is dispatched into global state" />
           </div>
         </aside>
 
         <section className="rounded-[2rem] border border-neutral-200/60 bg-white p-5 shadow-sm sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field icon={UserRound} label={copy[language].fullName}>
+              <Field icon={UserRound} label={t.fullName}>
                 <input
                   required
                   value={form.customerName}
@@ -129,22 +134,22 @@ export default function BookView() {
                 />
               </Field>
 
-              <Field icon={Phone} label={copy[language].phone}>
-                <div className="flex rounded-2xl border border-neutral-200 bg-white shadow-sm focus-within:border-neutral-400">
-                  <span className="inline-flex items-center rounded-l-2xl border-r border-neutral-200 bg-neutral-50 px-4 text-sm font-bold text-neutral-700">+995</span>
+              <Field icon={Phone} label={t.phone}>
+                <div className="flex rounded-2xl border border-neutral-200 bg-white shadow-sm focus-within:border-amber-400 focus-within:ring-4 focus-within:ring-amber-100">
+                  <span className="inline-flex items-center rounded-l-2xl border-r border-neutral-200 bg-amber-50 px-4 text-sm font-bold text-amber-700">+995</span>
                   <input
                     required
                     inputMode="numeric"
                     value={form.localPhone}
                     onChange={(event) => updateForm("localPhone", event.target.value)}
                     placeholder="555123456"
-                    className="min-w-0 flex-1 rounded-r-2xl border-0 bg-transparent px-4 py-3.5 text-neutral-950 outline-none placeholder:text-neutral-400"
+                    className="min-w-0 flex-1 rounded-r-2xl border-0 bg-transparent px-4 py-3.5 text-slate-950 outline-none placeholder:text-slate-400"
                   />
                 </div>
-                <p className={phoneIsValid ? "mt-2 text-xs font-semibold text-emerald-700" : "mt-2 text-xs font-semibold text-neutral-500"}>{copy[language].phoneHelp}</p>
+                <p className={phoneIsValid ? "mt-2 text-xs font-semibold text-emerald-700" : "mt-2 text-xs font-semibold text-slate-500"}>{t.phoneHelp}</p>
               </Field>
 
-              <Field icon={UsersRound} label={copy[language].guestCount}>
+              <Field icon={UsersRound} label={t.guestCount}>
                 <select value={form.partySize} onChange={(event) => updateForm("partySize", event.target.value)} className="field-input">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((count) => (
                     <option key={count} value={count}>{count}</option>
@@ -152,7 +157,7 @@ export default function BookView() {
                 </select>
               </Field>
 
-              <Field icon={CalendarDays} label={copy[language].date}>
+              <Field icon={CalendarDays} label={t.date}>
                 <input
                   required
                   type="date"
@@ -164,38 +169,37 @@ export default function BookView() {
               </Field>
             </div>
 
-            <Field icon={Clock3} label={copy[language].time}>
-              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
-                {timeSlots.map((slot) => {
-                  const disabled = !form.date || bookedSlots.includes(slot);
-                  const selected = form.time === slot;
-                  return (
-                    <button
-                      key={slot}
-                      type="button"
-                      disabled={disabled}
-                      onClick={() => updateForm("time", slot)}
-                      className={[
-                        "rounded-xl border px-3 py-2.5 text-sm font-semibold transition-all duration-300",
-                        selected ? "border-neutral-950 bg-neutral-950 text-white" : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300 hover:shadow-sm",
-                        disabled ? "cursor-not-allowed bg-neutral-50 text-neutral-300 hover:border-neutral-200 hover:shadow-none" : "",
-                      ].join(" ")}
-                    >
-                      {slot}
-                    </button>
-                  );
-                })}
-              </div>
-              {form.date && form.time && !slotIsAvailable && <p className="mt-3 text-sm font-semibold text-rose-700">{copy[language].unavailable}</p>}
+            <Field icon={Clock3} label={t.time}>
+              <select
+                required
+                value={form.time}
+                onChange={(event) => updateForm("time", event.target.value)}
+                className="field-input"
+              >
+                <option value="">12:00 - 23:00</option>
+                {timeSlots.map((slot) => (
+                  <option key={slot} value={slot} disabled={Boolean(form.date && bookedSlots.includes(slot))}>
+                    {slot}{form.date && bookedSlots.includes(slot) ? " - Booked" : ""}
+                  </option>
+                ))}
+              </select>
+              {form.date && form.time && !slotIsAvailable && <p className="mt-3 text-sm font-semibold text-rose-700">{t.unavailable}</p>}
             </Field>
+
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+              <p className="text-sm font-bold text-slate-950">{t.summary}</p>
+              <p className="mt-1 text-sm text-slate-600">
+                {form.partySize} guests · {form.date || "Date"} · {form.time || "Time"}
+              </p>
+            </div>
 
             <button
               type="submit"
               disabled={!canSubmit}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-neutral-950 px-6 py-4 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-amber-600 px-6 py-4 text-sm font-bold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
             >
               <CheckCircle2 size={18} />
-              {copy[language].submit}
+              {t.submit}
             </button>
           </form>
         </section>
@@ -207,8 +211,8 @@ export default function BookView() {
 function Field({ icon: Icon, label, children }) {
   return (
     <label className="block">
-      <span className="mb-2 flex items-center gap-2 text-sm font-bold text-neutral-800">
-        <Icon size={17} className="text-neutral-500" />
+      <span className="mb-2 flex items-center gap-2 text-sm font-bold text-slate-800">
+        <Icon size={17} className="text-amber-600" />
         {label}
       </span>
       {children}
@@ -219,9 +223,9 @@ function Field({ icon: Icon, label, children }) {
 function Info({ icon: Icon, title, text }) {
   return (
     <div className="rounded-2xl border border-neutral-200/60 bg-neutral-50 p-4">
-      <Icon className="mb-3 text-neutral-500" size={19} />
-      <p className="font-bold text-neutral-950">{title}</p>
-      <p className="mt-1 text-sm leading-6 text-neutral-600">{text}</p>
+      <Icon className="mb-3 text-amber-600" size={19} />
+      <p className="font-bold text-slate-950">{title}</p>
+      <p className="mt-1 text-sm leading-6 text-slate-600">{text}</p>
     </div>
   );
 }

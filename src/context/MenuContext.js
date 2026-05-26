@@ -1,126 +1,7 @@
 import { createContext, createElement, useContext, useMemo, useReducer } from "react";
+import { menuItems as officialMenuItems } from "../data/menu.js";
 
-export const CATEGORIES = [
-  { id: "pizza", label: { ge: "პიცა", en: "Pizza" }, description: { ge: "ღუმელიდან პირდაპირ მაგიდაზე", en: "Oven-fired bistro favorites" } },
-  { id: "burgers", label: { ge: "ბურგერები & სენდვიჩები", en: "Burgers & Sandwiches" }, description: { ge: "კომფორტული, სწრაფი და ხარისხიანი", en: "Premium comfort classics" } },
-  { id: "appetizers", label: { ge: "წასახემსებელი & სალათები", en: "Appetizers & Salads" }, description: { ge: "გასაზიარებელი არჩევანი", en: "Shareable plates and fresh sides" } },
-  { id: "drinks", label: { ge: "სასმელები", en: "Drinks" }, description: { ge: "გრილი და გამაგრილებელი", en: "Cold, polished refreshers" } },
-];
-
-export const MENU_ITEMS = [
-  {
-    id: "pizza-margherita",
-    categoryId: "pizza",
-    name: { ge: "პიცა მარგარიტა", en: "Pizza Margherita" },
-    description: { ge: "კლასიკური პიცა ტომატის სოუსითა და მოცარელათი", en: "Classic pizza with tomato sauce and mozzarella." },
-    price: 18,
-    viral: false,
-    available: true,
-    visual: "tomato",
-  },
-  {
-    id: "pizza-pepperoni",
-    categoryId: "pizza",
-    name: { ge: "პიცა პეპერონი", en: "Pizza Pepperoni" },
-    description: { ge: "ცხარე პეპერონი, მოცარელა, საფირმო სოუსი", en: "Spicy pepperoni, mozzarella, and signature sauce." },
-    price: 22,
-    viral: true,
-    available: true,
-    visual: "pepperoni",
-  },
-  {
-    id: "four-cheese-pizza",
-    categoryId: "pizza",
-    name: { ge: "პიცა ოთხი ყველი", en: "Four Cheese Pizza" },
-    description: { ge: "მოცარელა, პარმეზანი, გორგონძოლა, ჩედარი", en: "Mozzarella, parmesan, gorgonzola, and cheddar." },
-    price: 24,
-    viral: false,
-    available: true,
-    visual: "cheese",
-  },
-  {
-    id: "classic-burger",
-    categoryId: "burgers",
-    name: { ge: "კლასიკური ბურგერი", en: "Classic Burger" },
-    description: { ge: "საქონლის ხორცის კოტლეტი, ჩედარი, ბოსტნეული, საფირმო სოუსი", en: "Beef patty, cheddar, vegetables, and signature sauce." },
-    price: 16,
-    viral: true,
-    available: true,
-    visual: "burger",
-  },
-  {
-    id: "chicken-burger",
-    categoryId: "burgers",
-    name: { ge: "ჩიქენ ბურგერი", en: "Crispy Chicken Burger" },
-    description: { ge: "ხრაშუნა ქათმის ფილე, სალათის ფოთოლი, მაიონეზის სოუსი", en: "Crispy chicken fillet, lettuce, and mayo sauce." },
-    price: 15,
-    viral: false,
-    available: true,
-    visual: "chicken",
-  },
-  {
-    id: "club-sandwich-fries",
-    categoryId: "burgers",
-    name: { ge: "კლუბ სენდვიჩი ფრით", en: "Club Sandwich with Fries" },
-    description: { ge: "კლასიკური კლუბ სენდვიჩი ოქროსფერ ფრისთან ერთად", en: "Classic club sandwich served with golden fries." },
-    price: 14,
-    viral: false,
-    available: true,
-    visual: "sandwich",
-  },
-  {
-    id: "caesar-chicken",
-    categoryId: "appetizers",
-    name: { ge: "კეისარი ქათმით", en: "Caesar Salad with Chicken" },
-    description: { ge: "კლასიკური კეისარი საფირმო დრესინგითა და კრუტონებით", en: "Classic Caesar with signature dressing and croutons." },
-    price: 16,
-    viral: false,
-    available: true,
-    visual: "salad",
-  },
-  {
-    id: "french-fries",
-    categoryId: "appetizers",
-    name: { ge: "კარტოფილი ფრი", en: "French Fries" },
-    description: { ge: "ოქროსფერი კარტოფილი ფრი სოუსით", en: "Golden french fries with sauce." },
-    price: 7,
-    viral: false,
-    available: true,
-    visual: "fries",
-  },
-  {
-    id: "mexican-potatoes",
-    categoryId: "appetizers",
-    name: { ge: "მექსიკური კარტოფილი", en: "Mexican Potatoes" },
-    description: { ge: "ცხარე მექსიკური კარტოფილი საფირმო სოუსით", en: "Spicy Mexican potatoes with signature sauce." },
-    price: 8,
-    viral: false,
-    available: true,
-    visual: "potatoes",
-  },
-  {
-    id: "coca-cola-033",
-    categoryId: "drinks",
-    name: { ge: "კოკა-კოლა 0.33ლ", en: "Coca-Cola 0.33L" },
-    description: { ge: "გაცივებული კოკა-კოლა ქილით", en: "Chilled Coca-Cola can." },
-    price: 3,
-    viral: false,
-    available: true,
-    visual: "cola",
-  },
-  {
-    id: "iced-coffee",
-    categoryId: "drinks",
-    name: { ge: "ცივი ყავა", en: "Iced Coffee" },
-    description: { ge: "გამაგრილებელი ცივი ყავა რძით", en: "Refreshing iced coffee with milk." },
-    price: 7,
-    viral: false,
-    available: true,
-    visual: "coffee",
-  },
-];
-
-export const TIME_SLOTS = [
+export const timeSlots = [
   "12:00",
   "12:30",
   "13:00",
@@ -148,7 +29,7 @@ export const TIME_SLOTS = [
 
 const initialReservations = [
   {
-    id: "MRC-24891",
+    id: "MRC-82491",
     customerName: "Nino Beridze",
     phone: "+995555141288",
     partySize: 4,
@@ -158,7 +39,7 @@ const initialReservations = [
     createdAt: "2026-05-26T02:00:00.000Z",
   },
   {
-    id: "MRC-24892",
+    id: "MRC-82492",
     customerName: "Giorgi Maisuradze",
     phone: "+995577901020",
     partySize: 2,
@@ -170,8 +51,7 @@ const initialReservations = [
 ];
 
 const initialState = {
-  language: "ge",
-  menuItems: MENU_ITEMS,
+  menuItems: officialMenuItems,
   reservations: initialReservations,
 };
 
@@ -183,13 +63,10 @@ const sortReservations = (reservations) =>
     return dateTime || a.customerName.localeCompare(b.customerName);
   });
 
-const createTrackingId = () =>
-  `MRC-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+const createTrackingId = () => `MRC-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
 
 function menuReducer(state, action) {
   switch (action.type) {
-    case "SET_LANGUAGE":
-      return { ...state, language: action.payload };
     case "ADD_RESERVATION":
       return { ...state, reservations: sortReservations([...state.reservations, action.payload]) };
     case "UPDATE_RESERVATION_STATUS":
@@ -205,7 +82,7 @@ function menuReducer(state, action) {
       return {
         ...state,
         menuItems: state.menuItems.map((item) =>
-          item.id === action.payload ? { ...item, available: !item.available } : item,
+          item.id === action.payload ? { ...item, isAvailable: !item.isAvailable } : item,
         ),
       };
     default:
@@ -218,6 +95,29 @@ export function MenuProvider({ children }) {
 
   const reservations = useMemo(() => sortReservations(state.reservations), [state.reservations]);
 
+  const categories = useMemo(() => {
+    const byCategory = new Map();
+    state.menuItems.forEach((item) => {
+      if (!byCategory.has(item.categoryGe)) {
+        byCategory.set(item.categoryGe, {
+          id: item.category,
+          labelGe: item.categoryGe,
+          labelEn: item.category,
+        });
+      }
+    });
+    return Array.from(byCategory.values());
+  }, [state.menuItems]);
+
+  const groupedMenu = useMemo(
+    () =>
+      categories.map((category) => ({
+        ...category,
+        items: state.menuItems.filter((item) => item.categoryGe === category.labelGe),
+      })),
+    [categories, state.menuItems],
+  );
+
   const bookedSlotsByDate = useMemo(
     () =>
       reservations.reduce((slots, reservation) => {
@@ -227,15 +127,6 @@ export function MenuProvider({ children }) {
         return slots;
       }, {}),
     [reservations],
-  );
-
-  const groupedMenu = useMemo(
-    () =>
-      CATEGORIES.map((category) => ({
-        ...category,
-        items: state.menuItems.filter((item) => item.categoryId === category.id),
-      })),
-    [state.menuItems],
   );
 
   const createReservation = ({ customerName, localPhone, partySize, date, time }) => {
@@ -262,21 +153,18 @@ export function MenuProvider({ children }) {
   const value = useMemo(
     () => ({
       bookedSlotsByDate,
-      categories: CATEGORIES,
+      categories,
       createReservation,
-      dispatch,
       groupedMenu,
       isSlotAvailable,
-      language: state.language,
       menuItems: state.menuItems,
       reservations,
-      setLanguage: (language) => dispatch({ type: "SET_LANGUAGE", payload: language }),
-      timeSlots: TIME_SLOTS,
+      timeSlots,
       toggleMenuAvailability: (itemId) => dispatch({ type: "TOGGLE_MENU_AVAILABILITY", payload: itemId }),
       updateReservationStatus: (id, status) =>
         dispatch({ type: "UPDATE_RESERVATION_STATUS", payload: { id, status } }),
     }),
-    [bookedSlotsByDate, groupedMenu, reservations, state.language, state.menuItems],
+    [bookedSlotsByDate, categories, groupedMenu, reservations, state.menuItems],
   );
 
   return createElement(MenuContext.Provider, { value }, children);

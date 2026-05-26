@@ -6,8 +6,8 @@ export default function StockToggle({ enabled, onChange, label }) {
       aria-pressed={enabled}
       aria-label={label}
       className={[
-        "relative inline-flex h-7 w-12 flex-shrink-0 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-neutral-200",
-        enabled ? "bg-neutral-900" : "bg-neutral-300",
+        "relative inline-flex h-7 w-12 flex-shrink-0 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-amber-100",
+        enabled ? "bg-amber-600" : "bg-neutral-300",
       ].join(" ")}
     >
       <span
