@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Navigation from "./components/Navigation";
-import AdminView from "./views/AdminView";
-import BookView from "./views/BookView";
-import MenuView from "./views/MenuView";
+import Navigation from "./components/Navigation.jsx";
+import AdminView from "./views/AdminView.jsx";
+import BookView from "./views/BookView.jsx";
+import MenuView from "./views/MenuView.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#070707] text-white">
+    <div className="min-h-screen overflow-x-hidden bg-neutral-950 text-white">
       <Navigation />
       <Routes>
         <Route path="/" element={<Navigate to="/menu" replace />} />

@@ -1,12 +1,12 @@
-# Restaurant Management Web App
+# Maracana Restaurant Lounge App
 
-A full-stack-style restaurant management interface built with React, Vite, Tailwind CSS, and Lucide React icons.
+Premium, mobile-responsive React/Vite/Tailwind prototype for the Georgian restaurant/lounge brand **მარაკანა**.
 
 ## Routes
 
-- `/menu` - mobile-first QR customer menu with English/Georgian language toggle and live inventory overlays.
-- `/book` - reservation form with simulated backend availability checks and confirmation codes.
-- `/admin` - staff dashboard for booking status management and instant menu stock toggles.
+- `/menu` - customer QR menu with global EN/GE language switching, official Maracana menu data, TikTok viral badges, and live out-of-stock overlays.
+- `/book` - localized table booking flow with Georgian phone validation, 12:00-23:00 Tbilisi operating-hour slots, and automated confirmation codes.
+- `/admin` - staff dashboard for reservation status management and live menu inventory toggles.
 
 ## Development
 
